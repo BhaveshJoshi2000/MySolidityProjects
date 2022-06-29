@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-
+// Lottery project
 pragma solidity ^0.8.0;
 
 contract Lottery {
