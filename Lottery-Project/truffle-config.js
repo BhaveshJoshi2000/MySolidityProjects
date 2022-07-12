@@ -48,8 +48,8 @@ module.exports = {
      },
      geth: {
       host: "127.0.0.1",     // Localhost (default: none)
-      port: 30301,            // Standard Ethereum port (default: none)
-      network_id: "0",       // Any network (default: none)
+      port: 30304,            // Standard Ethereum port (default: none)
+      network_id: "2022",       // Any network (default: none)
      },
      ganache: {
       host: "127.0.0.1",     // Localhost (default: none)
