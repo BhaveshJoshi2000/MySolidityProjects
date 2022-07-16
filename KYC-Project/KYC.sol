@@ -15,9 +15,9 @@ contract KYC {
     //Defining the KycRequest
     struct KycRequest {
         string userName;
-        string data;
-        address requestBank; //Bank which requested the KYC
-        bool isRequest; //will be used to check the valid request
+        string data; //hash of new or modified data
+        address requestBank; //Bank which requested to verify new or modified KYC data
+        bool isRequest; //will be used to check the valid request is present in list or not
     }
 
     mapping(string => KycRequest) public requestList;

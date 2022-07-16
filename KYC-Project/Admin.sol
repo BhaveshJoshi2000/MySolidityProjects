@@ -11,8 +11,6 @@ contract Admin is Bank {
         i_owner = msg.sender; //seeting owner for the address which is used to deploy the contract
     }
 
-    uint public bankCount = 0; //will increment whenever the bank is added
-
     //check if function is called by owner
     modifier onlyAdmin() {
         require(msg.sender == i_owner, "Not Authorised");

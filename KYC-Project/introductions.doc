@@ -1,0 +1,71 @@
+WELCOME TO MY KYC PROJECT..
+
+I've  splitted the problem into three main parts
+    1. KYC.sol - Will store the KYC data using Mapping
+    2. Bank.sol - Will store Bank data and all the functionalities of the Banks
+    3. Admin.sol - Will define Admin and admin functionalities
+
+These three contracts together makes whole projects
+
+I used Multilevel inheritance in this project, where KYC is inherited by Bank.sol and Bank.sol is inherited by Admin.sol
+
+KYC.sol -> Bank.sol -> Admin.sol
+
+ONLY ADMIN.SOL WILL HAVE TO BE DEPLOYED AS IT CONTAINS ALL THE CODE OF KYC.SOL AND BANK.SOL
+
+
+
+PROJECT FLOW
+
+    1. Admin.sol is DEPLOYED
+    2. Admin adds certain banks using addBanks function providing Name address and registration ID
+        checks -
+            onlyAdmin - only admin can access this function
+
+    3. Customer provides bank his name and hash of KYC data offline, banks checks the data in blockchain
+       and according to the conditions banks have three optins
+
+         a. If Customer's data is already added in blockchain banks can use it.
+
+         b. If customer's data is already present but is different from the blockchain's data,
+            banks can modify it using modifyCustomer function providing customer's username and new data
+
+         c. if customer is not present, banks can add new customer using addCustomer providing his username and data's hash 
+
+!!!! IMP INFORMATION ON KYC VERIFICATION PROCESS !!!!
+
+    4. When the bank adds new customer or modify customer's data banks will have to make KYC request and add it to KYC requestList for verifying the new data using 
+       addRequest function, kycStatus of customer will be changed to false if it is being modified
+        check - 
+            isNotRequested - will work only if request is not already present in requestList
+
+    5. Other banks will have to upvote and downvote to the customer's data using upVote and downVote function.
+        check-
+            isRequested -will work only if request is present in requestList
+
+    6. Once all the banks have completed voting, Customer's data is verified if upvote is greater than downvote and downvote's are less than 1/3 of the total banks,
+       else it is rejected. upvotes and downvotes of the customers is set to 0 for future voting.
+
+       Note-- all banks must vote to verify the KYC, verification process will automatically start after all votes are acquired
+    
+    7. Request is then removed from requestList and the new KYC data of the customer can be used in future
+
+    8. Customer's KYC is considered invalid if kycStatus of the customer is false
+
+    9. If banks somehow makes wrong request they can remove request from requestList, only the bank which requested the KYC and remove it from requestList
+
+
+
+AUTHORIZATION ROLES AND PROCESS
+
+ADMIN : Only Admin id Authorised to add and manage banks in the network, he can add banks with addBank function, Remove banks using removeBank function,
+         and can restrict the Bank's Voting Rights by ModifyIsAllowedTOVote function.
+
+Banks : Banks have right to participate in the voting process of verification of consumer's data.
+        if banks other banks suspicious he can report it using reportBank function, when the reports of certain banks reaches more than 1/3 of total banks
+        Bank automatically looses it's right to vote.
+        Only Banks can add, modity, request verification, upVote, downVote, the customer's KYC data.
+
+KYC :   Customer's kyc is considered invalid if kycStatus of thr customer is false, Customer will be automatically verified or rejected once all the banks
+        have completed votings
+ 
